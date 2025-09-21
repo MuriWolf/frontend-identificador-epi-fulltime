@@ -1,0 +1,45 @@
+<template>
+  <Bar
+    id="my-chart-id"
+    :options="chartOptions"
+    :data="chartData"
+  />
+</template>
+
+<script lang="ts">
+import { Bar } from 'vue-chartjs'
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+export default {
+  name: 'BarChart',
+  components: { Bar },
+  props: {
+    chartData: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      chartOptions: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</script>
