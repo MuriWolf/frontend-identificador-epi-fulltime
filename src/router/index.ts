@@ -13,16 +13,13 @@ const router = createRouter({
     {
       path: '/sobre-nos',
       name: 'AboutUs',
-      component: AboutUs
+      component: AboutUs,
     },
     {
       path: '/:pathMatch(.*)*',
-      redirect: '/'
-    }
+      redirect: '/',
+    },
   ],
-
-  //todo: redirecinar rotas inexistentes
-
 })
 
 export default router
