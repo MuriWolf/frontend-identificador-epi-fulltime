@@ -95,13 +95,11 @@ export default {
 <style scoped>
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   background-color: #121212;
   color: #f0f0f0;
   font-family: Arial, sans-serif;
-  padding: 20px;
   gap: 20px;
-  box-sizing: border-box;
 }
 
 .camera-section {

@@ -1,8 +1,19 @@
-<script setup lang="ts"></script>
-
 <template>
-  <router-view/>
+  <div class="wrapper">
+    <NavBar />
+    <router-view />
+  </div>
 </template>
+
+<script lang="ts">
+import NavBar from '@/layout/NavBar.vue'
+
+export default {
+  components: {
+    NavBar,
+  },
+}
+</script>
 
 <style>
 body {
@@ -14,5 +25,13 @@ body {
 
 #app {
   height: 100vh;
+}
+
+.wrapper {
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
 }
 </style>
