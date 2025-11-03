@@ -18,7 +18,7 @@
           <h2>Histórico de Ocorrências</h2>
         </div>
         <div class="card-body">
-          <ul class="occurrence-list">
+          <ul class="list">
             <li v-for="(item, index) in occurrences" :key="index">
               {{ item.employee }} sem {{ item.type }} - {{ item.time }}
             </li>
@@ -140,27 +140,6 @@ export default {
 .history-card {
   flex: 1;
   overflow-y: auto;
-}
-
-.occurrence-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.occurrence-list li {
-  border-bottom: 1px solid #333;
-  line-height: 1.25rem !important;
-  padding: 10px 0;
-}
-
-.occurrence-list li:first-child {
-  padding-top: 0px;
-}
-
-.occurrence-list li:last-child {
-  padding-bottom: 0px;
-  border-bottom: none;
 }
 
 .chart-card {

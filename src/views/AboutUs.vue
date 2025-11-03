@@ -26,7 +26,7 @@
         </section>
         <section class="card-body">
           <p>A aplicação está separada em algumas partes:</p>
-          <ul>
+          <ul class="list">
             <li>
               <strong>Algoritmo IA: </strong>Nossa IA é treinada com imagens reais, para tornar o
               modelo efetivo no reconhecimento. ADICIONAR O NOME DA TECNOLOGIA
@@ -48,7 +48,7 @@
           <h2>Os criadores</h2>
         </section>
         <section class="card-body">
-          <ul>
+          <ul class="list">
             <li>David Eduardo Lino</li>
             <li title="e Daniel Molo">Lucas Marques</li>
             <li>Murillo Pinheiro de Oliveira</li>
