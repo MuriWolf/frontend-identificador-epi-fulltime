@@ -19,7 +19,7 @@ export default {
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #121212;
+  background-color: #1c1917;
   color: #f0f0f0;
 }
 

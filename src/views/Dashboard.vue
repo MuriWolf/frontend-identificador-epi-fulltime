@@ -13,18 +13,26 @@
     </div>
 
     <div class="data-section">
-      <div class="data-card history-card">
-        <h2>Histórico de Ocorrências</h2>
-        <ul class="occurrence-list">
-          <li v-for="(item, index) in occurrences" :key="index">
-            {{ item.employee }} sem {{ item.type }} - {{ item.time }}
-          </li>
-        </ul>
+      <div class="card history-card">
+        <div class="card-header">
+          <h2>Histórico de Ocorrências</h2>
+        </div>
+        <div class="card-body">
+          <ul class="occurrence-list">
+            <li v-for="(item, index) in occurrences" :key="index">
+              {{ item.employee }} sem {{ item.type }} - {{ item.time }}
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div class="data-card chart-card">
-        <h2>Gráfico de Infrações</h2>
-        <BarChart :chartData="infractionsData" />
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>Gráfico de Infrações</h2>
+        </div>
+        <div class="card-body">
+          <BarChart :chartData="infractionsData" />
+        </div>
       </div>
     </div>
   </div>
@@ -47,7 +55,6 @@ export default {
   },
   data(): { videoStreamUrl: string; occurrences: Occurrence[] } {
     return {
-
       videoStreamUrl: '',
 
       occurrences: [
@@ -96,7 +103,6 @@ export default {
 .dashboard-container {
   display: flex;
   height: 100%;
-  background-color: #121212;
   color: #f0f0f0;
   font-family: Arial, sans-serif;
   gap: 20px;
@@ -131,21 +137,6 @@ export default {
   gap: 20px;
 }
 
-.data-card {
-  background-color: #1e1e1e;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-h2 {
-  border-bottom: 2px solid #444;
-  padding-bottom: 10px;
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #fff;
-}
-
 .history-card {
   flex: 1;
   overflow-y: auto;
@@ -158,11 +149,17 @@ h2 {
 }
 
 .occurrence-list li {
-  padding: 10px 0;
   border-bottom: 1px solid #333;
+  line-height: 1.25rem !important;
+  padding: 10px 0;
+}
+
+.occurrence-list li:first-child {
+  padding-top: 0px;
 }
 
 .occurrence-list li:last-child {
+  padding-bottom: 0px;
   border-bottom: none;
 }
 

@@ -19,7 +19,7 @@
 
 <style lang="css" scoped>
 .nav {
-  background-color: #ed1c26;
+  background-color: var(--primary-color);
   border-radius: 12px;
 }
 
