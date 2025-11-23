@@ -1,42 +1,49 @@
-
 export interface Occurrence {
-  type: 'capacete' | 'oculos' | 'luvas' | 'cinto';
-  employee: string;
-  time: string;
+  id: number
+  track_id: number
+  timestamp: string
+  has_helmet: boolean
+  bbox: string
 }
-
 
 export interface ChartData {
-  labels: string[];
+  labels: string[]
   datasets: {
-    label: string;
-    backgroundColor: string[];
-    data: number[];
-  }[];
+    label: string
+    backgroundColor: string[]
+    data: number[]
+  }[]
 }
 
-
 export function formatChartData(occurrences: Occurrence[]): ChartData {
-  const counts = {
-    capacete: 0,
-    oculos: 0,
-    luvas: 0,
-    cinto: 0,
-  };
+  const infractionsCount = {
+    helmets: 0,
+    glasses: 0,
+    gloves: 0,
+    belts: 0,
+  }
 
-  occurrences.forEach(occurrence => {
-    if (counts.hasOwnProperty(occurrence.type)) {
-      counts[occurrence.type]++;
+  occurrences.forEach((occurrence) => {
+    // se não possui capacete, adicionar na contagem de infrações
+    if (infractionsCount.hasOwnProperty('helmets') && !occurrence?.has_helmet) {
+      infractionsCount.helmets++
     }
-  });
+  })
+
   return {
-    labels: ['Capacete', 'Óculos', 'Luvas', 'Cinto',],
+    // Adicionar mais tipos de infrações com o tempo
+    labels: ['Capacete', 'Óculos', 'Luva', 'Cinto'],
     datasets: [
       {
         label: 'Infrações por Tipo de EPI',
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-        data: [counts.capacete, counts.oculos, counts.luvas, counts.cinto],
+        data: [
+          infractionsCount.helmets,
+          infractionsCount.glasses,
+          infractionsCount.gloves,
+          infractionsCount.belts,
+        ],
       },
     ],
-  };
+  }
 }

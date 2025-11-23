@@ -18,11 +18,13 @@
           <h2>Histórico de Ocorrências</h2>
         </div>
         <div class="card-body">
-          <ul class="list">
-            <li v-for="(item, index) in occurrences" :key="index">
-              {{ item.employee }} sem {{ item.type }} - {{ item.time }}
-            </li>
-          </ul>
+          <TransitionGroup name="list" tag="ul" class="list">
+            <template v-for="occurence in occurrences" :key="occurence.id">
+              <li v-if="occurence.has_helmet == false">
+                Funcionário {{ occurence.track_id }} sem capacete - {{ occurence.timestamp }}
+              </li>
+            </template>
+          </TransitionGroup>
         </div>
       </div>
 
@@ -39,41 +41,31 @@
 </template>
 
 <script lang="ts">
-import { formatChartData } from '@/services/dataService'
+import { formatChartData, type Occurrence } from '@/services/dataService'
 import BarChart from '@/components/BarChart.vue'
-
-type Occurrence = {
-  type: 'capacete' | 'oculos' | 'luvas' | 'cinto'
-  employee: string
-  time: string
-}
 
 export default {
   name: 'DashboardView',
   components: {
     BarChart,
   },
-  data(): { videoStreamUrl: string; occurrences: Occurrence[] } {
+  data(): {
+    videoStreamUrl: string
+    API_CALL_INTERVAL_SEC: number
+    apiCallTimer: number | undefined
+    occurrences: Occurrence[]
+  } {
     return {
+      API_CALL_INTERVAL_SEC: 10,
       videoStreamUrl: '',
-
-      occurrences: [
-        { type: 'capacete', employee: 'Funcionário X', time: '14:30' },
-        { type: 'oculos', employee: 'Funcionário Y', time: '14:35' },
-        { type: 'luvas', employee: 'Funcionário Z', time: '14:40' },
-        { type: 'cinto', employee: 'Funcionário A', time: '14:45' },
-        { type: 'capacete', employee: 'Funcionário B', time: '14:50' },
-        { type: 'oculos', employee: 'Funcionário C', time: '14:55' },
-      ],
+      apiCallTimer: undefined,
+      occurrences: [],
     }
   },
   computed: {
     infractionsData() {
       return formatChartData(this.occurrences)
     },
-  },
-  mounted() {
-    this.startCamera()
   },
   methods: {
     async startCamera() {
@@ -95,6 +87,31 @@ export default {
         alert('Não foi possível acessar a câmera local. Verifique as permissões do navegador.')
       }
     },
+    async getInfractions() {
+      const endpoint = 'http://127.0.0.1:8000/api/history/id'
+
+      try {
+        const response = await fetch(endpoint)
+        const data = await response.json()
+
+        if (data) {
+          this.occurrences = data
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  },
+  async mounted() {
+    this.startCamera()
+
+    this.getInfractions()
+    this.apiCallTimer = setInterval(async () => {
+      this.getInfractions()
+    }, this.API_CALL_INTERVAL_SEC * 1000)
+  },
+  beforeUnmount() {
+    clearInterval(this.apiCallTimer)
   },
 }
 </script>
@@ -138,7 +155,7 @@ export default {
 }
 
 .history-card {
-  flex: 1;
+  flex: 2;
   overflow-y: auto;
 }
 
@@ -157,5 +174,21 @@ export default {
   align-items: center;
   font-size: 1.2em;
   color: #888;
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 </style>
